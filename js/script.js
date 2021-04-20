@@ -38,17 +38,22 @@ let dir = "left";
 // Обработчик событий нажатия кнопок для движения змейки
 document.addEventListener('keydown', direction);
 
+// Флаг для только одного изменения направления за ход
+let directionChangeMarker = 0;
+
 // Функция обработчика событий нажатия кнопок
 function direction(event) {
-  if (event.keyCode == 37 && dir != "right") {
+  if (event.keyCode == 37 && dir != "right" && (directionChangeMarker == 1)) {
     dir = "left";
-  } else if (event.keyCode == 38 && dir != "down") {
+  } else if (event.keyCode == 38 && dir != "down" && (directionChangeMarker == 1)) {
     dir = "up";
-  } else if (event.keyCode == 39 && dir != "left") {
+  } else if (event.keyCode == 39 && dir != "left" && (directionChangeMarker == 1)) {
     dir = "right";
-  } else if (event.keyCode == 40 && dir != "up") {
+  } else if (event.keyCode == 40 && dir != "up" && (directionChangeMarker == 1)) {
     dir = "down";
   }
+
+  directionChangeMarker = 0;
 }
 
 // Функция которая рисует нашу игру
@@ -70,6 +75,9 @@ function drawGame() {
   ctx.fillStyle = "white";
   ctx.font = "50px Arial";
   ctx.fillText(score, box * 2.2, box * 1.7);
+
+  // Меняем флажок напрвления движения
+  directionChangeMarker = 1;
 
   // Описываем координаты головы змейки
   let snakeX = snake[0].x;
